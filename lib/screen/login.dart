@@ -113,14 +113,16 @@ class _Login_ScreenState extends State<Login_Screen> {
   }
 
   Future<void> login(String UserName, Password) async {
+    var url = 'https://192.168.7.198:2214/api/Login';
+    Map data = {
+      'shipperCode': UserNameController.text,
+      'password': PasswordController.text
+    };
+    var body = json.encode(data);
     if (UserNameController.text.isNotEmpty &&
         PasswordController.text.isNotEmpty) {
-      var response = await http.post(
-          Uri.parse('https://192.168.7.198:2214/api/Login'),
-          body: ({
-            'shipperCode': UserNameController.text,
-            'password': PasswordController.text
-          }));
+      var response = await http.post(Uri.parse(url),
+          headers: {"Content-Type": "application/json"}, body: body);
       if (response.statusCode == 200) {
         var body = response.body;
         var data = jsonDecode(body.toString());
