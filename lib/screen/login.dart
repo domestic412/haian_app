@@ -6,6 +6,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:haian_app/screen/second.dart';
 import 'package:http/http.dart' as http;
 
+import 'alert.dart';
+
 class Login_Screen extends StatefulWidget {
   const Login_Screen({super.key});
 
@@ -15,6 +17,7 @@ class Login_Screen extends StatefulWidget {
 
 var UserNameController = TextEditingController();
 var PasswordController = TextEditingController();
+LoginAlert loginAlert = LoginAlert();
 
 Widget _buildAppbarImage() {
   return Padding(
@@ -112,8 +115,8 @@ class _Login_ScreenState extends State<Login_Screen> {
     ));
   }
 
-  Future<void> login(String shipperCode,String password) async {
-    var url = 'http://192.168.7.198:1214/api/Login';
+  Future<void> login(String shipperCode, String password) async {
+    var url = 'https://192.168.7.198:1214/api/Login';
     Map data = {
       'shipperCode': UserNameController.text,
       'password': PasswordController.text
@@ -135,8 +138,7 @@ class _Login_ScreenState extends State<Login_Screen> {
               builder: (context) => const Second(),
             ));
       } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("False")));
+        loginAlert.showMyAlert(context);
       }
     } else {
       ScaffoldMessenger.of(context)
